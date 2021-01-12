@@ -1,7 +1,8 @@
 <template>
   <div class="container column">
     <input-block
-
+      @submit-data="submitData"
+      :errmsg="errorMsg.inValidTextArea"
     ></input-block>
 
 
@@ -22,6 +23,22 @@ import CommentsBlock from '@/components/comments-block/CommentsBlock'
 import ResumeBlock from '@/components/resume-block/ResumeBlock'
 
 export default {
+  data() {
+    return {
+      formData: {},
+
+      errorMsg: {
+        inValidTextArea: 'Длина сообщения должна быть не менее 4 символов'
+      }
+    }
+  },
+
+  methods: {
+    submitData(data) {
+      this.formData = data
+      console.log(this.formData)
+    }
+  },
 
   components: {
     InputBlock,
