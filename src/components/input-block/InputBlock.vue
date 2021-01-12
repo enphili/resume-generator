@@ -26,13 +26,7 @@ import PrimaryButton from "@/components/buttons/PrimaryButton";
 
 export default {
   emits: {
-    'submit-data': formData => {
-      if (formData.selectType && formData.value.length < 4 ) {
-        return false
-      } else {
-        return true
-      }
-    }
+    'submit-data': formData => !(formData.selectType && formData.value.length < 4)
   },
 
   props: {
