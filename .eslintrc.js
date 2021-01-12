@@ -17,16 +17,18 @@ module.exports = {
     'comma-dangle': 'off',
     'require-jsdoc': 'off',
     'eol-last': 'off',
-    'linebreak-style': ['error', 'unix'],
+    'linebreak-style': ['error', 'windows'],
     'space-before-function-paren': ['error', 'never'],
     'operator-linebreak': [2, 'before'],
+    'vue/max-attributes-per-line': 'off',
+    // 'max-len': 'off'
     'max-len': [
       'error', {
-        'code': 120,
-        'ignoreComments': true,
-        'ignoreTrailingComments': true,
-        'ignoreUrls': true,
-        'ignoreStrings': true
+        code: 120,
+        ignoreComments: true,
+        ignoreTrailingComments: true,
+        ignoreUrls: true,
+        ignoreStrings: true
       }
     ]
   }
