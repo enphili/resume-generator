@@ -13,7 +13,10 @@
 
 
   <comments-block
-
+    @load-comments="loadComments"
+    :isLoader="isLoader"
+    :isErrAlert="errAlert"
+    :allComments="comments"
   ></comments-block>
 </template>
 
@@ -23,10 +26,17 @@ import CommentsBlock from '@/components/comments-block/CommentsBlock'
 import ResumeBlock from '@/components/resume-block/ResumeBlock'
 
 export default {
+  provide() {
+    return {
+      fcherr: this.errorMsg.fetchFailed,
+    }
+  },
+
   data() {
     return {
       errorMsg: {
-        inValidTextArea: 'Длина сообщения должна быть не менее 4 символов'
+        inValidTextArea: 'Длина сообщения должна быть не менее 4 символов',
+        fetchFailed: 'Не удалось загрузить данные с сервера. Попробуйте позже!'
       },
       resumeBullets: [
         {
@@ -38,6 +48,9 @@ export default {
           value: ''
         }
       ],
+      comments: [],
+      isLoader: false,
+      errAlert: false
     }
   },
 
@@ -59,6 +72,18 @@ export default {
       }
 
       console.log(this.resumeBullets)
+    },
+
+    async loadComments() {
+      try {
+        this.isLoader = true
+        const response = await fetch('https://jsonplaceholder.typicode.com/comments?_limit=42')
+        this.comments = await response.json()
+        this.errAlert = false
+      } catch (e) {
+        this.errAlert = true
+      }
+      this.isLoader = false
     }
   },
 

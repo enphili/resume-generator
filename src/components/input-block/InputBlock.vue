@@ -49,11 +49,18 @@ export default {
   },
 
   methods: {
+    toUpperCaseFirstLetter(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1)
+    },
+
     submitForm() {
       if (this.checkTextArea < 4) {
         this.isValid = false
       } else {
         this.isValid = true
+        if (this.selectType === 'title' || this.selectType === 'subtitle') {
+          this.value = this.toUpperCaseFirstLetter(this.value)
+        }
         this.$emit('submit-data', this.selectType, this.value)
         this.value = ''
         this.selectType = 'title'
