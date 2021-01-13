@@ -4,7 +4,14 @@
       <primary-button @click="$emit('load-comments')">Загрузить комментарии</primary-button>
     </p>
 
-    <error-alert v-if="isErrAlert"></error-alert>
+    <alert-block v-if="isErrAlert" class="danger">
+      <template v-slot:header>
+        Ошибка!
+      </template>
+      <template v-slot:text>
+        {{ fcherr }}
+      </template>
+    </alert-block>
 
     <div v-else class="card">
       <h2>Комментарии</h2>
@@ -28,9 +35,11 @@
 import PrimaryButton from "@/components/buttons/PrimaryButton"
 import LoaderInComment from '@/components/comments-block/LoaderInComment'
 import SingleComment from '@/components/comments-block/SingleComment'
-import ErrorAlert from '@/components/comments-block/ErrorAlert'
+import AlertBlock from '@/components/alerts/AlertBlock'
 
 export default {
+  inject: ['fcherr'],
+
   emits: {
     'load-comments': null
   },
@@ -55,7 +64,7 @@ export default {
     PrimaryButton,
     LoaderInComment,
     SingleComment,
-    ErrorAlert
+    AlertBlock
   }
 }
 </script>

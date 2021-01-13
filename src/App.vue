@@ -2,12 +2,14 @@
   <div class="container column">
     <input-block
       @submit-data="submitData"
-      :errmsg="errorMsg.inValidTextArea"
     ></input-block>
 
 
     <resume-block
+      @save-to-bd="saveResume"
       :resume="resumeBullets"
+      :isSaved="isSaved"
+      :showAlertSuccess="showAlert"
     ></resume-block>
   </div>
 
@@ -25,18 +27,26 @@ import InputBlock from '@/components/input-block/InputBlock'
 import CommentsBlock from '@/components/comments-block/CommentsBlock'
 import ResumeBlock from '@/components/resume-block/ResumeBlock'
 
+
 export default {
   provide() {
     return {
-      fcherr: this.errorMsg.fetchFailed,
+      fcherr: this.arrayMsg.fetchFailed,
+      typeArray: this.typeArray,
+      dataSuccessSave: this.arrayMsg.successMsg,
+      errorMsg: this.arrayMsg.errorMsg,
+      invalTaxAr: this.arrayMsg.inValidTextArea
     }
   },
 
   data() {
     return {
-      errorMsg: {
+      typeArray: ['avatar', 'title', 'subtitle', 'text'],
+      arrayMsg: {
         inValidTextArea: 'Длина сообщения должна быть не менее 4 символов',
-        fetchFailed: 'Не удалось загрузить данные с сервера. Попробуйте позже!'
+        fetchFailed: 'Не удалось загрузить данные с сервера. Попробуйте позже!',
+        successMsg: 'Данные успешно сохранены в базе данных!',
+        errorMsg: 'Не удалось сохранить данные! Попробуйте позже.'
       },
       resumeBullets: [
         {
@@ -50,7 +60,10 @@ export default {
       ],
       comments: [],
       isLoader: false,
-      errAlert: false
+      errAlert: false,
+      isSaved: false,
+      showAlert: false,
+      savedResumeArray: [],
     }
   },
 
@@ -70,8 +83,7 @@ export default {
           value: val
         })
       }
-
-      console.log(this.resumeBullets)
+      this.isSaved = false
     },
 
     async loadComments() {
@@ -84,6 +96,27 @@ export default {
         this.errAlert = true
       }
       this.isLoader = false
+    },
+
+    async saveResume() {
+      this.resumeBullets.forEach(el => this.savedResumeArray.push({[el.type]: el.value}))
+      try {
+        await fetch('https://learnvuecurse-default-rtdb.europe-west1.firebasedatabase.app/resume.json', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(this.savedResumeArray)
+        })
+        this.isSaved = true
+        this.showAlert = this.isSaved
+        setTimeout(() => {
+          this.showAlert = false
+        }, 2000)
+      } catch (e) {
+        console.log(e.message)
+      }
+
     }
   },
 

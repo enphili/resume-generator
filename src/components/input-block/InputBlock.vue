@@ -3,17 +3,17 @@
     <div class="form-control">
       <label for="type">Тип блока</label>
       <select id="type" v-model="selectType" @change="value = ''">
-        <option value="title">Заголовок</option>
-        <option value="subtitle">Подзаголовок</option>
-        <option value="avatar">Аватар</option>
-        <option value="text">Текст</option>
+        <option :value="typeArray[1]">Заголовок</option>
+        <option :value="typeArray[2]">Подзаголовок</option>
+        <option :value="typeArray[0]">Аватар</option>
+        <option :value="typeArray[3]">Текст</option>
       </select>
     </div>
 
     <div class="form-control">
       <label for="value">Значение</label>
       <textarea id="value" rows="3" v-model.trim="value" @focus="isValid=true"></textarea>
-      <small class="small-error" v-if="!isValid">{{ errmsg }}</small>
+      <small class="small-error" v-if="!isValid">{{ invalTaxAr }}</small>
     </div>
 
     <primary-button
@@ -24,19 +24,15 @@
 </template>
 
 <script>
-import PrimaryButton from "@/components/buttons/PrimaryButton";
+import PrimaryButton from '@/components/buttons/PrimaryButton'
+import {toUpperCaseFirstLetter} from '@/utils/supportFunctions'
 
 export default {
+  inject: ['typeArray', 'invalTaxAr'],
+
   emits: {
     'submit-data'(a, b) {
       return !!(a && b.length >= 4)
-    }
-  },
-
-  props: {
-    errmsg: {
-      type: String,
-      required: true,
     }
   },
 
@@ -49,17 +45,13 @@ export default {
   },
 
   methods: {
-    toUpperCaseFirstLetter(str) {
-      return str.charAt(0).toUpperCase() + str.slice(1)
-    },
-
     submitForm() {
       if (this.checkTextArea < 4) {
         this.isValid = false
       } else {
         this.isValid = true
-        if (this.selectType === 'title' || this.selectType === 'subtitle') {
-          this.value = this.toUpperCaseFirstLetter(this.value)
+        if (this.selectType === this.typeArray[1] || this.selectType === this.typeArray[2]) {
+          this.value = toUpperCaseFirstLetter(this.value)
         }
         this.$emit('submit-data', this.selectType, this.value)
         this.value = ''
