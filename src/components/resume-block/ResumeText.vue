@@ -1,7 +1,7 @@
 <template>
-  <h1>
+  <p>
     {{ this.$attrs.value }}
-  </h1>
+  </p>
 </template>
 
 <script>

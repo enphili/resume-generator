@@ -7,7 +7,7 @@
 
 
     <resume-block
-
+      :resume="resumeBullets"
     ></resume-block>
   </div>
 
@@ -25,18 +25,40 @@ import ResumeBlock from '@/components/resume-block/ResumeBlock'
 export default {
   data() {
     return {
-      formData: {},
-
       errorMsg: {
         inValidTextArea: 'Длина сообщения должна быть не менее 4 символов'
-      }
+      },
+      resumeBullets: [
+        {
+          type: '',
+          value: ''
+        },
+        {
+          type: '',
+          value: ''
+        }
+      ],
     }
   },
 
   methods: {
-    submitData(data) {
-      this.formData = data
-      console.log(this.formData)
+    submitData(selectType, val) {
+      if (selectType === 'title') {
+        this.resumeBullets[1].type = selectType
+        this.resumeBullets[1].value = val
+      }
+      if (selectType === 'avatar') {
+        this.resumeBullets[0].type = selectType
+        this.resumeBullets[0].value = val
+      }
+      if (selectType !== 'title' && selectType !== 'avatar') {
+        this.resumeBullets.push({
+          type: selectType,
+          value: val
+        })
+      }
+
+      console.log(this.resumeBullets)
     }
   },
 
@@ -51,7 +73,7 @@ export default {
 <style lang="sass">
 .avatar
   display: flex
-  justify-content: center
+  justify-content: flex-start
 .avatar img
   width: 150px
   height: auto

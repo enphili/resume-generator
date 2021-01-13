@@ -1,31 +1,46 @@
 <template>
   <div class="card card-w70">
 
-    <resume-title></resume-title>
+    <h3 v-if="isEmpty">Добавьте первый блок, чтобы увидеть результат</h3>
+    <div v-else>
 
-    <resume-avatar></resume-avatar>
 
-    <resume-bullet></resume-bullet>
+      <component
+        v-for="(bullet, idx) in resume"
+        :key="idx"
+        :is="'resume-' + bullet.type"
+        :value="bullet.value"
+      ></component>
 
-    <h3>Добавьте первый блок, чтобы увидеть результат</h3>
+    </div>
   </div>
 </template>
 
 <script>
-import ResumeBullet from '@/components/resume-block/ResumeBullet'
 import ResumeTitle from '@/components/resume-block/ResumeTitle'
 import ResumeAvatar from '@/components/resume-block/ResumeAvatar'
+import ResumeSubtitle from "@/components/resume-block/ResumeSubtitle";
+import ResumeText from "@/components/resume-block/ResumeText";
 
 export default {
+  props: {
+    resume: {
+      type: Array,
+      required: true,
+    }
+  },
+
+  computed: {
+    isEmpty() {
+      return this.resume[1].value.length === 0
+    },
+  },
 
   components: {
-    ResumeBullet,
     ResumeTitle,
-    ResumeAvatar
+    ResumeAvatar,
+    ResumeSubtitle,
+    ResumeText
   }
 }
 </script>
-
-<style scoped>
-
-</style>
