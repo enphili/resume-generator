@@ -1,6 +1,6 @@
 <template>
   <div class="avatar">
-    <img :src="this.$attrs.value" alt="avatar">
+    <img :src="$attrs.content" alt="avatar">
   </div>
 </template>
 

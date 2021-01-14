@@ -1,11 +1,11 @@
 <template>
-  <h2>
-    {{ this.$attrs.value }}
-  </h2>
+  <div>
+    <h2>{{ $attrs.content }}</h2>
+  </div>
+
 </template>
 
 <script>
 export default {
-
 }
 </script>

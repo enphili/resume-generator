@@ -1,6 +1,6 @@
 <template>
   <h1>
-    {{ this.$attrs.value }}
+    {{ $attrs.content }}
   </h1>
 </template>
 

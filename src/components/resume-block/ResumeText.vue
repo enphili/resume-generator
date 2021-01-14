@@ -1,6 +1,6 @@
 <template>
   <p>
-    {{ this.$attrs.value }}
+    {{ $attrs.content }}
   </p>
 </template>
 

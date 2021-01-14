@@ -8,7 +8,7 @@
         v-for="(bullet, idx) in resume"
         :key="idx"
         :is="'resume-' + bullet.type"
-        :value="bullet.value"
+        v-bind="{content: bullet.value}"
       ></component>
     </div>
 

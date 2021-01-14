@@ -2,6 +2,7 @@
   <div class="load-resume">
 
     <primary-button
+      :style="{width: '100%'}"
       @click="$emit('load-resume')"
     >загрузить резюме</primary-button>
 
@@ -50,7 +51,7 @@ export default {
     width: 0
     opacity: 0
     list-style: none
-    padding-left: 0px
+    padding-left: 0
     border: 2px solid #ccc
     overflow: hidden
     transition: height 0.3s, opacity 0.3s

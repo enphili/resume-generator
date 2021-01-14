@@ -14,7 +14,7 @@
       <div class="form-control">
         <label for="value">Значение</label>
         <textarea id="value" rows="3" v-model.trim="value" @focus="isValid=true"></textarea>
-        <small class="small-error" v-if="disabledButton">{{ invalTaxAr }}</small>
+        <small class="small-error" v-if="!isValid">{{ invalTaxAr }}</small>
       </div>
 
       <div class="buttons-wrap">
@@ -122,11 +122,11 @@ export default {
   width: fit-content
   border-radius: 99px
   letter-spacing: 0.05em
-  color: #c25205
+  color: #2547f8
   white-space: nowrap
   font: 400 13.3333px Arial
   text-transform: uppercase
   font-weight: 700
-  border: 1px solid #c25205
+  border: 1px solid #2547f8
   cursor: pointer
 </style>
