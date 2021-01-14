@@ -2,14 +2,20 @@
   <div class="container column">
     <input-block
       @submit-data="submitData"
+      @load-li-resume="loadResume"
+      @insert-resume="showSelectedResume"
+      @clear-resume="clearResume"
+      :showResumeLi="showResumeLi"
+      :showResumeLoader="showResumeLoader"
+      :resumeArray="loadedResume"
     ></input-block>
-
 
     <resume-block
       @save-to-bd="saveResume"
       :resume="resumeBullets"
       :isSaved="isSaved"
       :showAlertSuccess="showAlert"
+      :isSubmitDone="isSubmitDone"
     ></resume-block>
   </div>
 
@@ -64,31 +70,36 @@ export default {
       isSaved: false,
       showAlert: false,
       savedResumeArray: [],
+      showResumeLi: false,
+      showResumeLoader: false,
+      loadedResume: {},
+      isSubmitDone: false
     }
   },
 
   methods: {
     submitData(selectType, val) {
-      if (selectType === 'title') {
+      if (selectType === this.typeArray[1]) {
         this.resumeBullets[1].type = selectType
         this.resumeBullets[1].value = val
       }
-      if (selectType === 'avatar') {
+      if (selectType === this.typeArray[0]) {
         this.resumeBullets[0].type = selectType
         this.resumeBullets[0].value = val
       }
-      if (selectType !== 'title' && selectType !== 'avatar') {
+      if (selectType !== this.typeArray[1] && selectType !== this.typeArray[0]) {
         this.resumeBullets.push({
           type: selectType,
           value: val
         })
       }
       this.isSaved = false
+      this.isSubmitDone = true
     },
 
     async loadComments() {
+      this.isLoader = true
       try {
-        this.isLoader = true
         const response = await fetch('https://jsonplaceholder.typicode.com/comments?_limit=42')
         this.comments = await response.json()
         this.errAlert = false
@@ -116,7 +127,37 @@ export default {
       } catch (e) {
         console.log(e.message)
       }
+      this.savedResumeArray = []
+    },
 
+    async loadResume() {
+      this.savedResumeArray = []
+      this.showResumeLoader = true
+      try {
+        const response = await fetch('https://learnvuecurse-default-rtdb.europe-west1.firebasedatabase.app/resume.json')
+        this.loadedResume = await response.json()
+      } catch (e) {
+        console.log(e.message)
+      }
+      this.showResumeLoader = false
+      this.showResumeLi = true
+    },
+
+    showSelectedResume(key) {
+      this.showResumeLi = false
+      this.isSubmitDone = false
+      this.resumeBullets = []
+      this.loadedResume[key].forEach(el => {
+        this.resumeBullets.push({
+          type: Object.keys(el)[0],
+          value: Object.values(el)[0]
+        })
+      })
+    },
+
+    clearResume() {
+      this.resumeBullets = [{type: '', value: ''}, {type: '', value: ''}]
+      this.savedResumeArray = []
     }
   },
 

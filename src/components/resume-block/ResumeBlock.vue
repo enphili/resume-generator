@@ -14,7 +14,7 @@
 
     <div v-if="readyToSave">
       <hr>
-      <primary-button @click="$emit('save-to-bd')" :disabled="isSaved">сохранить резюме</primary-button>
+      <primary-button class="primary" @click="$emit('save-to-bd')" :disabled="isSaved">сохранить резюме</primary-button>
     </div>
 
     <alert-block v-if="showAlertSuccess" :class="[showAlertSuccess ? 'primary' : 'danger']">
@@ -55,6 +55,10 @@ export default {
     showAlertSuccess: {
       type: Boolean,
       default: false
+    },
+    isSubmitDone: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -67,7 +71,7 @@ export default {
     readyToSave() {
       const receivedTypeArray = []
       this.resume.forEach(el => receivedTypeArray.push(el.type))
-      return compare(receivedTypeArray, this.typeArray)
+      return compare(receivedTypeArray, this.typeArray) && this.isSubmitDone
     },
 
   },

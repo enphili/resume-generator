@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <p>
-      <primary-button @click="$emit('load-comments')">Загрузить комментарии</primary-button>
+      <primary-button class="primary" @click="$emit('load-comments')">Загрузить комментарии</primary-button>
     </p>
 
     <alert-block v-if="isErrAlert" class="danger">
