@@ -13,7 +13,7 @@
       </template>
     </alert-block>
 
-    <div v-else class="card">
+    <div v-if="isCommentsDone" class="card">
       <h2>Комментарии</h2>
       <ul class="list">
 
@@ -56,6 +56,10 @@ export default {
     },
     allComments: {
       type: Array
+    },
+    isCommentsDone: {
+      type: Boolean,
+      default: false,
     }
   },
 

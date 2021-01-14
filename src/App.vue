@@ -25,6 +25,7 @@
     :isLoader="isLoader"
     :isErrAlert="errAlert"
     :allComments="comments"
+    :isCommentsDone="isCommentsDone"
   ></comments-block>
 </template>
 
@@ -67,6 +68,7 @@ export default {
       comments: [],
       isLoader: false,
       errAlert: false,
+      isCommentsDone: false,
       isSaved: false,
       showAlert: false,
       savedResumeArray: [],
@@ -103,6 +105,7 @@ export default {
         const response = await fetch('https://jsonplaceholder.typicode.com/comments?_limit=42')
         this.comments = await response.json()
         this.errAlert = false
+        this.isCommentsDone = true
       } catch (e) {
         this.errAlert = true
       }
