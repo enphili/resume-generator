@@ -178,6 +178,8 @@ export default {
     clearResume() {
       this.resumeBullets = [{type: '', value: ''}, {type: '', value: ''}]
       this.savedResumeArray = []
+      this.comments = []
+      this.isCommentsDone = false
     }
   },
 
