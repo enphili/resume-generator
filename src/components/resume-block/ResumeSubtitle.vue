@@ -1,11 +1,21 @@
 <template>
-  <div>
+  <div class="bullet-wrap">
+    <resume-editor></resume-editor>
     <h2>{{ $attrs.content }}</h2>
   </div>
 
 </template>
 
 <script>
+import ResumeEditor from '@/components/resume-block/ResumeEditor'
+
 export default {
+  components: {ResumeEditor}
 }
 </script>
+
+<style lang="sass">
+.bullet-wrap
+  position: relative
+
+</style>
