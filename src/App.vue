@@ -173,6 +173,8 @@ export default {
           value: Object.values(el)[0]
         })
       })
+      this.comments = []
+      this.isCommentsDone = false
     },
 
     clearResume() {
