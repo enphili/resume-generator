@@ -3,7 +3,7 @@
     <form @submit.prevent="submitForm">
       <div class="form-control">
         <label for="type">Тип блока</label>
-        <select id="type" v-model="selectType" @change="value = ''">
+        <select id="type" v-model="selectType" @change="changeValue">
           <option :value="typeArray[1]">Заголовок</option>
           <option :value="typeArray[2]">Подзаголовок</option>
           <option :value="typeArray[0]">Аватар</option>
@@ -13,7 +13,7 @@
 
       <div class="form-control">
         <label for="value">Значение</label>
-        <textarea id="value" rows="3" v-model.trim="value" @focus="isValid=true"></textarea>
+        <textarea id="value" rows="3" v-model.trim="value" @focus="focusTextArea"></textarea>
         <small class="small-error" v-if="!isValid">{{ invalTaxAr }}</small>
       </div>
 
@@ -50,7 +50,9 @@ export default {
     },
     'load-li-resume': null,
     'insert-resume': null,
-    'clear-resume': null
+    'clear-resume': null,
+    'focus-textarea': null,
+    'change-select-value': null
   },
 
   props: {
@@ -88,6 +90,16 @@ export default {
         this.value = ''
         this.selectType = 'title'
       }
+    },
+
+    focusTextArea() {
+      this.isValid = true
+      this.$emit('focus-textarea')
+    },
+
+    changeValue() {
+      this.value = ''
+      this.$emit('change-select-value')
     }
   },
 

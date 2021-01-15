@@ -10,6 +10,7 @@
         :is="'resume-' + bullet.type"
         v-bind="{content: bullet.value}"
         @rem-bull="$emit('del-bull', idx)"
+        @send-editable-text="$emit('editable-text', $event, idx)"
       ></component>
     </div>
 
@@ -40,7 +41,7 @@ import AlertBlock from '@/components/alerts/AlertBlock'
 import {compare} from '@/utils/supportFunctions'
 
 export default {
-  emits: ['save-to-bd', 'del-bull'],
+  emits: ['save-to-bd', 'del-bull', 'editable-text'],
 
   inject: ['typeArray', 'dataSuccessSave', 'errorMsg'],
 

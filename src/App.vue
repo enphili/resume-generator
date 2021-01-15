@@ -5,6 +5,8 @@
       @load-li-resume="loadResume"
       @insert-resume="showSelectedResume"
       @clear-resume="clearResume"
+      @focus-textarea="cleanResumeLi"
+      @change-select-value="cleanResumeLi"
       :showResumeLi="showResumeLi"
       :showResumeLoader="showResumeLoader"
       :resumeArray="loadedResume"
@@ -13,6 +15,7 @@
     <resume-block
       @save-to-bd="saveResume"
       @del-bull="deleteResumeBullet"
+      @editable-text="updateBulletText"
       :resume="resumeBullets"
       :isSaved="isSaved"
       :showAlertSuccess="showAlert"
@@ -189,12 +192,28 @@ export default {
       this.resumeBullets = [{type: '', value: ''}, {type: '', value: ''}]
       this.savedResumeArray = []
       this.comments = []
+      this.loadedResume = {}
+      this.showResumeLi = false
       this.isCommentsDone = false
     },
+
     deleteResumeBullet(idx) {
       this.resumeBullets.splice(idx, 1)
       this.isSaved = false
       this.isSubmitDone = true
+    },
+
+    cleanResumeLi() {
+      this.loadedResume = {}
+      this.showResumeLi = false
+    },
+
+    updateBulletText(newText, idx) {
+      if (this.resumeBullets[idx].value !== newText) {
+        this.resumeBullets[idx].value = newText
+        this.isSaved = false
+        this.isSubmitDone = true
+      }
     }
   },
 
