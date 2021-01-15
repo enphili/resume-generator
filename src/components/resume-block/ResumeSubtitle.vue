@@ -1,6 +1,8 @@
 <template>
   <div class="bullet-wrap">
-    <resume-editor></resume-editor>
+    <resume-editor
+      @del-bullet="$emit('rem-bull')"
+    ></resume-editor>
     <h2>{{ $attrs.content }}</h2>
   </div>
 
@@ -10,6 +12,7 @@
 import ResumeEditor from '@/components/resume-block/ResumeEditor'
 
 export default {
+  emits: ['rem-bull'],
   components: {ResumeEditor}
 }
 </script>

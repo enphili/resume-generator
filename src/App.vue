@@ -12,6 +12,7 @@
 
     <resume-block
       @save-to-bd="saveResume"
+      @del-bull="deleteResumeBullet"
       :resume="resumeBullets"
       :isSaved="isSaved"
       :showAlertSuccess="showAlert"
@@ -53,12 +54,11 @@
 //  5) Вопрос про передачу аргумента в $emits через 2,3,.... компонентов. Сейчас сделал:
 //  @click="$emits('ttt-eee', data)" -> @ttt-eee="$emits('rrr-yyy', $event)" -> @ttt-eee="$emits(MethodInMainComponent)"
 //  т.е. в каждом промежуточном компоненте передавать $event? это правильное решение?
-//  Мне бы было проще по старинке через еще один экземпляр vue (eventBus) - но не проходили не курсе - не стал так делать
+//  Мне бы было проще по старинке через еще один экземпляр vue (eventBus) - но в vue 3 похоже сейчас это делается по другому
 }
 import InputBlock from '@/components/input-block/InputBlock'
 import CommentsBlock from '@/components/comments-block/CommentsBlock'
 import ResumeBlock from '@/components/resume-block/ResumeBlock'
-
 
 export default {
   provide() {
@@ -190,6 +190,11 @@ export default {
       this.savedResumeArray = []
       this.comments = []
       this.isCommentsDone = false
+    },
+    deleteResumeBullet(idx) {
+      this.resumeBullets.splice(idx, 1)
+      this.isSaved = false
+      this.isSubmitDone = true
     }
   },
 

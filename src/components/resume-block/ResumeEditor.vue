@@ -1,12 +1,16 @@
 <template>
   <div class="editor-block">
     <button class="editor-btn editor-btn--edit"></button>
-    <button class="editor-btn editor-btn--remove"></button>
+    <button class="editor-btn editor-btn--remove" @click="$emit('del-bullet')"></button>
   </div>
 </template>
 
 <script>
+
 export default {
+  emits: {
+    'del-bullet': null
+  }
 }
 </script>
 
@@ -15,9 +19,11 @@ export default {
   position: absolute
   right: 0
   top: 0
-  display: flex
+  display: none
   justify-content: space-between
   width: 45px
+.bullet-wrap:hover .editor-block
+  display: flex
 .editor-btn
   width: 20px
   height: 20px

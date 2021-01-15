@@ -9,6 +9,7 @@
         :key="idx"
         :is="'resume-' + bullet.type"
         v-bind="{content: bullet.value}"
+        @rem-bull="$emit('del-bull', idx)"
       ></component>
     </div>
 
@@ -39,7 +40,7 @@ import AlertBlock from '@/components/alerts/AlertBlock'
 import {compare} from '@/utils/supportFunctions'
 
 export default {
-  emits: ['save-to-bd'],
+  emits: ['save-to-bd', 'del-bull'],
 
   inject: ['typeArray', 'dataSuccessSave', 'errorMsg'],
 
