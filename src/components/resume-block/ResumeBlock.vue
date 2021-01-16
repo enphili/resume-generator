@@ -24,7 +24,7 @@
         {{ showAlertSuccess ? 'Успешно!' : 'Ошибка!' }}
       </template>
       <template v-slot:text>
-        {{ showAlertSuccess ? dataSuccessSave : errorMsg }}
+        {{ showAlertSuccess ? fetchSaveSuccess : fetchSaveFailed }}
       </template>
     </alert-block>
 
@@ -43,7 +43,7 @@ import {compare} from '@/utils/supportFunctions'
 export default {
   emits: ['save-to-bd', 'del-bull', 'editable-text'],
 
-  inject: ['typeArray', 'dataSuccessSave', 'errorMsg'],
+  inject: ['selectValueArray', 'fetchSaveSuccess', 'fetchSaveFailed'],
 
   props: {
     resume: {
@@ -71,9 +71,10 @@ export default {
     },
 
     readyToSave() {
-      const receivedTypeArray = []
-      this.resume.forEach(el => receivedTypeArray.push(el.type))
-      return compare(receivedTypeArray, this.typeArray) && this.isSubmitDone
+      const receivedSelectValueArray = []
+      this.resume.forEach(el => receivedSelectValueArray.push(el.type))
+      const onlyTypeInSelectArray = this.selectValueArray.map(type => type.value)
+      return compare(receivedSelectValueArray, onlyTypeInSelectArray) && this.isSubmitDone
     },
 
   },

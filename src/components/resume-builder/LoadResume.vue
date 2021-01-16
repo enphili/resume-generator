@@ -24,7 +24,7 @@
 
 <script>
 import PrimaryButton from '@/components/buttons/PrimaryButton'
-import LoaderInInputBlock from '@/components/input-block/LoaderInInputBlock'
+import LoaderInInputBlock from '@/components/loders/LoaderInResumeBuilder'
 export default {
   emits: {
     'load-resume': null,

@@ -9,7 +9,7 @@
         Ошибка!
       </template>
       <template v-slot:text>
-        {{ fcherr }}
+        {{ fetchLoadFailed }}
       </template>
     </alert-block>
 
@@ -18,9 +18,9 @@
       <ul class="list">
 
         <single-comment
-          v-for="(comment, idx) in allComments"
+          v-for="comment in allComments"
           :key="comment.id"
-          :singlcoment="allComments[idx]"
+          :singleComment="comment"
         ></single-comment>
 
       </ul>
@@ -33,12 +33,12 @@
 
 <script>
 import PrimaryButton from "@/components/buttons/PrimaryButton"
-import LoaderInComment from '@/components/comments-block/LoaderInComment'
+import LoaderInComment from '@/components/loders/LoaderInComment'
 import SingleComment from '@/components/comments-block/SingleComment'
 import AlertBlock from '@/components/alerts/AlertBlock'
 
 export default {
-  inject: ['fcherr'],
+  inject: ['fetchLoadFailed'],
 
   emits: {
     'load-comments': null

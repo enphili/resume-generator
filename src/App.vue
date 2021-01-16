@@ -1,6 +1,6 @@
 <template>
   <div class="container column">
-    <input-block
+    <resume-builder
       @submit-data="submitData"
       @load-li-resume="loadResume"
       @insert-resume="showSelectedResume"
@@ -10,7 +10,7 @@
       :showResumeLi="showResumeLi"
       :showResumeLoader="showResumeLoader"
       :resumeArray="loadedResume"
-    ></input-block>
+    ></resume-builder>
 
     <resume-block
       @save-to-bd="saveResume"
@@ -34,54 +34,35 @@
 </template>
 
 <script>
-{
-//FIXME: Вопросы!
-//  1) Не совсем понятно про v-bind без атрибута (v-bind:attribute="data" vs v-bind="data") - d чем разница
-//  если просто v-bind то в дочернем компоненте получаю объект со всеми атрибутами родителя?
-//  если так как получить доступ до передаваемых данных?
-//
-//  2) Про $attrs тоже не совсем понятно.. this.$attrs - это объект со всеми атрибутами родителя?
-//  v-bind="$attrs" - передача дочке объекта со всеми атрибутами родителя?
-//  v-bind="{content: data}" - такая запись работает, но в дочке все равно надо делать $attrs.content
-//  v-bind="data" - так не работает  - или я что то упускаю?
-//  в {{  }} нужно писать $attrs.content или this.$attrs.content? работает так и так
-//  вообщем суть в том что в дочке не надо будет писать props ?
-//
-//  3) В документации сказано что provide/inject не реактивны, но это можно обойти используя computed свойство.
-//  пытался сделать у меня не получалось, пришлось частично использовать props. Как их сделать реактивными?
-//
-//  4) вопрос не совсем по теме: на сколько безопасно обращаться к базе в js по прямым ссылкам
-//  как мы делаем на курсе. В своих проектах делал всегда обращение в fetch к какому ни будь saveData.php,
-//  а там уже обрабатывал прямые ссылки к базе
-//
-//  5) Вопрос про передачу аргумента в $emits через 2,3,.... компонентов. Сейчас сделал:
-//  @click="$emits('ttt-eee', data)" -> @ttt-eee="$emits('rrr-yyy', $event)" -> @ttt-eee="$emits(MethodInMainComponent)"
-//  т.е. в каждом промежуточном компоненте передавать $event? это правильное решение?
-//  Мне бы было проще по старинке через еще один экземпляр vue (eventBus) - но в vue 3 похоже сейчас это делается по другому
-}
-import InputBlock from '@/components/input-block/InputBlock'
+
+import ResumeBuilder from '@/components/resume-builder/ResumeBuilder'
 import CommentsBlock from '@/components/comments-block/CommentsBlock'
 import ResumeBlock from '@/components/resume-block/ResumeBlock'
 
 export default {
   provide() {
     return {
-      fcherr: this.arrayMsg.fetchFailed,
-      typeArray: this.typeArray,
-      dataSuccessSave: this.arrayMsg.successMsg,
-      errorMsg: this.arrayMsg.errorMsg,
-      invalTaxAr: this.arrayMsg.inValidTextArea
+      fetchLoadFailed: this.arrayMsg.fetchLoadFailed,
+      selectValueArray: this.selectValueArray,
+      fetchSaveSuccess: this.arrayMsg.fetchSaveSuccess,
+      fetchSaveFailed: this.arrayMsg.fetchSaveFailed,
+      invalidTextLengthTextArea: this.arrayMsg.invalidTextLengthTextArea
     }
   },
 
   data() {
     return {
-      typeArray: ['avatar', 'title', 'subtitle', 'text'],
+      selectValueArray: [
+        {value: 'title', text: 'Заголовок'},
+        {value: 'avatar', text: 'Аватар'},
+        {value: 'subtitle', text: 'Подзаголовок'},
+        {value: 'text', text: 'Текст'}
+      ],
       arrayMsg: {
-        inValidTextArea: 'Длина сообщения должна быть не менее 4 символов',
-        fetchFailed: 'Не удалось загрузить данные с сервера. Попробуйте позже!',
-        successMsg: 'Данные успешно сохранены в базе данных!',
-        errorMsg: 'Не удалось сохранить данные! Попробуйте позже.'
+        invalidTextLengthTextArea: 'Длина сообщения должна быть не менее 4 символов',
+        fetchLoadFailed: 'Не удалось загрузить данные с сервера. Попробуйте позже!',
+        fetchSaveSuccess: 'Данные успешно сохранены в базе данных!',
+        fetchSaveFailed: 'Не удалось сохранить данные! Попробуйте позже.'
       },
       resumeBullets: [
         {
@@ -109,15 +90,15 @@ export default {
 
   methods: {
     submitData(selectType, val) {
-      if (selectType === this.typeArray[1]) {
+      if (selectType === this.selectValueArray[0].value) {
         this.resumeBullets[1].type = selectType
         this.resumeBullets[1].value = val
       }
-      if (selectType === this.typeArray[0]) {
+      if (selectType === this.selectValueArray[1].value) {
         this.resumeBullets[0].type = selectType
         this.resumeBullets[0].value = val
       }
-      if (selectType !== this.typeArray[1] && selectType !== this.typeArray[0]) {
+      if (selectType !== this.selectValueArray[1].value && selectType !== this.selectValueArray[0].value) {
         this.resumeBullets.push({
           type: selectType,
           value: val
@@ -218,7 +199,7 @@ export default {
   },
 
   components: {
-    InputBlock,
+    ResumeBuilder,
     CommentsBlock,
     ResumeBlock
   }

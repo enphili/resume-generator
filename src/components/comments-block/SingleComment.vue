@@ -1,8 +1,8 @@
 <template>
   <li class="list-item">
     <div>
-      <p><strong>{{ singlcoment.email }}</strong></p>
-      <small>{{ singlcoment.body }}</small>
+      <p><strong>{{ singleComment.email }}</strong></p>
+      <small>{{ singleComment.body }}</small>
     </div>
   </li>
 </template>
@@ -10,7 +10,7 @@
 <script>
 export default {
   props: {
-    singlcoment: {
+    singleComment: {
       type: Object
     }
   }

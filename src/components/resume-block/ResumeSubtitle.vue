@@ -5,9 +5,9 @@
       @edit-bullet="editBullet"
     ></resume-editor>
     <h2
-      :contenteditable="contentEditable"
-      :class="{ editable : contentEditable }"
-      ref="editableText"
+      :contenteditable="isEditable"
+      :class="{ editable : isEditable }"
+      ref="editableSubTitle"
       @blur="endEdit"
     >{{ $attrs.content }}</h2>
   </div>
@@ -28,21 +28,21 @@ export default {
 
   data() {
     return {
-      contentEditable: false
+      isEditable: false
     }
   },
 
   methods: {
     editBullet() {
-      this.contentEditable = true
+      this.isEditable = true
       this.$nextTick(function() {
-        this.$refs.editableText.focus()
+        this.$refs.editableSubTitle.focus()
       })
     },
 
     endEdit() {
-      this.contentEditable = false
-      const text = this.$refs.editableText.textContent
+      this.isEditable = false
+      const text = this.$refs.editableSubTitle.textContent
       this.$emit('send-editable-text', text)
     }
   },
